@@ -1,0 +1,1251 @@
+Started by user Santhoshi Mary A
+Obtained Jenkinsfile from git https://github.com/SanthoshiMary/terraform-docker-jenkins.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/SanthoshiMary/terraform-docker-jenkins.git # timeout=10
+Fetching upstream changes from https://github.com/SanthoshiMary/terraform-docker-jenkins.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.52.0.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/SanthoshiMary/terraform-docker-jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+Checking out Revision d1928d74b62271540b5966b436445496b0dafd7b (refs/remotes/origin/master)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f d1928d74b62271540b5966b436445496b0dafd7b # timeout=10
+Commit message: "Use AWS credentials in Jenkins"
+ > git.exe rev-list --no-walk bfefe202a4e724372ed8f1d7163474df83a59e5f # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check Tools)
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>terraform --version 
+Terraform v1.16.4
+on windows_amd64
+
+Your version of Terraform is out of date! The latest version
+is 1.16.5. You can update by downloading from https://developer.hashicorp.com/terraform/install
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>docker --version 
+Docker version 29.8.0, build 88096ef
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>"C:\Users\santh\AppData\Local\Programs\Amazon\AWSCLIV2\aws.exe" --version 
+aws-cli/2.37.7 Python/3.14.6 Windows/11 script-exe/AMD64
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Terraform Init)
+[Pipeline] withCredentials
+Masking supported pattern matches of %AWS_SECRET_ACCESS_KEY%
+[Pipeline] {
+[Pipeline] dir
+Running in C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\terraform
+[Pipeline] {
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\terraform>terraform init 
+[0m[1mInitializing the backend...[0m
+
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v6.68.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Terraform Plan)
+[Pipeline] withCredentials
+Masking supported pattern matches of %AWS_SECRET_ACCESS_KEY%
+[Pipeline] {
+[Pipeline] dir
+Running in C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\terraform
+[Pipeline] {
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\terraform>terraform plan 
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_instance.docker_1[0m will be created
+[0m  [32m+[0m[0m resource "aws_instance" "docker_1" {
+      [32m+[0m[0m ami                                  = "ami-0f918f7e67a3323f0"
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m associate_public_ip_address          = (known after apply)
+      [32m+[0m[0m availability_zone                    = (known after apply)
+      [32m+[0m[0m disable_api_stop                     = (known after apply)
+      [32m+[0m[0m disable_api_termination              = (known after apply)
+      [32m+[0m[0m ebs_optimized                        = (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [32m+[0m[0m force_destroy                        = false
+      [32m+[0m[0m get_password_data                    = false
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_initiated_shutdown_behavior = (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [32m+[0m[0m instance_state                       = (known after apply)
+      [32m+[0m[0m instance_type                        = "t2.micro"
+      [32m+[0m[0m ipv6_address_count                   = (known after apply)
+      [32m+[0m[0m ipv6_addresses                       = (known after apply)
+      [32m+[0m[0m key_name                             = "terraform-docker-key"
+      [32m+[0m[0m monitoring                           = (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [32m+[0m[0m placement_partition_number           = (known after apply)
+      [32m+[0m[0m primary_network_interface_id         = (known after apply)
+      [32m+[0m[0m private_dns                          = (known after apply)
+      [32m+[0m[0m private_ip                           = (known after apply)
+      [32m+[0m[0m public_dns                           = (known after apply)
+      [32m+[0m[0m public_ip                            = (known after apply)
+      [32m+[0m[0m region                               = "ap-south-1"
+      [32m+[0m[0m secondary_private_ips                = (known after apply)
+      [32m+[0m[0m security_groups                      = (known after apply)
+      [32m+[0m[0m source_dest_check                    = true
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [32m+[0m[0m subnet_id                            = (known after apply)
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-1"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-1"
+        }
+      [32m+[0m[0m tenancy                              = (known after apply)
+      [32m+[0m[0m user_data                            = <<-EOT
+            #!/bin/bash
+            
+            apt-get update -y
+            
+            apt-get install -y ca-certificates curl
+            
+            install -m 0755 -d /etc/apt/keyrings
+            
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+              -o /etc/apt/keyrings/docker.asc
+            
+            chmod a+r /etc/apt/keyrings/docker.asc
+            
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+              tee /etc/apt/sources.list.d/docker.list > /dev/null
+            
+            apt-get update -y
+            
+            apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            
+            systemctl enable docker
+            systemctl start docker
+            
+            usermod -aG docker ubuntu
+        EOT
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+      [32m+[0m[0m user_data_replace_on_change          = false
+      [32m+[0m[0m vpc_security_group_ids               = (known after apply)
+
+      [32m+[0m[0m capacity_reservation_specification (known after apply)
+
+      [32m+[0m[0m cpu_options (known after apply)
+
+      [32m+[0m[0m ebs_block_device (known after apply)
+
+      [32m+[0m[0m enclave_options (known after apply)
+
+      [32m+[0m[0m ephemeral_block_device (known after apply)
+
+      [32m+[0m[0m instance_market_options (known after apply)
+
+      [32m+[0m[0m maintenance_options (known after apply)
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m network_interface (known after apply)
+
+      [32m+[0m[0m primary_network_interface (known after apply)
+
+      [32m+[0m[0m private_dns_name_options (known after apply)
+
+      [32m+[0m[0m root_block_device (known after apply)
+
+      [32m+[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1m  # aws_instance.docker_2[0m will be created
+[0m  [32m+[0m[0m resource "aws_instance" "docker_2" {
+      [32m+[0m[0m ami                                  = "ami-0f918f7e67a3323f0"
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m associate_public_ip_address          = (known after apply)
+      [32m+[0m[0m availability_zone                    = (known after apply)
+      [32m+[0m[0m disable_api_stop                     = (known after apply)
+      [32m+[0m[0m disable_api_termination              = (known after apply)
+      [32m+[0m[0m ebs_optimized                        = (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [32m+[0m[0m force_destroy                        = false
+      [32m+[0m[0m get_password_data                    = false
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_initiated_shutdown_behavior = (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [32m+[0m[0m instance_state                       = (known after apply)
+      [32m+[0m[0m instance_type                        = "t2.micro"
+      [32m+[0m[0m ipv6_address_count                   = (known after apply)
+      [32m+[0m[0m ipv6_addresses                       = (known after apply)
+      [32m+[0m[0m key_name                             = "terraform-docker-key"
+      [32m+[0m[0m monitoring                           = (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [32m+[0m[0m placement_partition_number           = (known after apply)
+      [32m+[0m[0m primary_network_interface_id         = (known after apply)
+      [32m+[0m[0m private_dns                          = (known after apply)
+      [32m+[0m[0m private_ip                           = (known after apply)
+      [32m+[0m[0m public_dns                           = (known after apply)
+      [32m+[0m[0m public_ip                            = (known after apply)
+      [32m+[0m[0m region                               = "ap-south-1"
+      [32m+[0m[0m secondary_private_ips                = (known after apply)
+      [32m+[0m[0m security_groups                      = (known after apply)
+      [32m+[0m[0m source_dest_check                    = true
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [32m+[0m[0m subnet_id                            = (known after apply)
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-2"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-2"
+        }
+      [32m+[0m[0m tenancy                              = (known after apply)
+      [32m+[0m[0m user_data                            = <<-EOT
+            #!/bin/bash
+            
+            apt-get update -y
+            
+            apt-get install -y ca-certificates curl
+            
+            install -m 0755 -d /etc/apt/keyrings
+            
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+              -o /etc/apt/keyrings/docker.asc
+            
+            chmod a+r /etc/apt/keyrings/docker.asc
+            
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+              tee /etc/apt/sources.list.d/docker.list > /dev/null
+            
+            apt-get update -y
+            
+            apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            
+            systemctl enable docker
+            systemctl start docker
+            
+            usermod -aG docker ubuntu
+        EOT
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+      [32m+[0m[0m user_data_replace_on_change          = false
+      [32m+[0m[0m vpc_security_group_ids               = (known after apply)
+
+      [32m+[0m[0m capacity_reservation_specification (known after apply)
+
+      [32m+[0m[0m cpu_options (known after apply)
+
+      [32m+[0m[0m ebs_block_device (known after apply)
+
+      [32m+[0m[0m enclave_options (known after apply)
+
+      [32m+[0m[0m ephemeral_block_device (known after apply)
+
+      [32m+[0m[0m instance_market_options (known after apply)
+
+      [32m+[0m[0m maintenance_options (known after apply)
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m network_interface (known after apply)
+
+      [32m+[0m[0m primary_network_interface (known after apply)
+
+      [32m+[0m[0m private_dns_name_options (known after apply)
+
+      [32m+[0m[0m root_block_device (known after apply)
+
+      [32m+[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1m  # aws_internet_gateway.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_internet_gateway" "main" {
+      [32m+[0m[0m arn      = (known after apply)
+      [32m+[0m[0m id       = (known after apply)
+      [32m+[0m[0m owner_id = (known after apply)
+      [32m+[0m[0m region   = "ap-south-1"
+      [32m+[0m[0m tags     = {
+          [32m+[0m[0m "Name" = "terraform-docker-igw"
+        }
+      [32m+[0m[0m tags_all = {
+          [32m+[0m[0m "Name" = "terraform-docker-igw"
+        }
+      [32m+[0m[0m vpc_id   = (known after apply)
+    }
+
+[1m  # aws_route_table.public[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "public" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m region           = "ap-south-1"
+      [32m+[0m[0m route            = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_block                 = "0.0.0.0/0"
+              [32m+[0m[0m gateway_id                 = (known after apply)
+                [90m# (12 unchanged attributes hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "public-route-table"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Name" = "public-route-table"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # aws_route_table_association.public_1[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public_1" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "ap-south-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # aws_route_table_association.public_2[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public_2" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "ap-south-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # aws_security_group.docker[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "docker" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "Security group for Docker EC2 instances"
+      [32m+[0m[0m egress                 = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m from_port        = 0
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "-1"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 0
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "Application"
+              [32m+[0m[0m from_port        = 8080
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 8080
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "HTTP"
+              [32m+[0m[0m from_port        = 80
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 80
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "SSH"
+              [32m+[0m[0m from_port        = 22
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 22
+            },
+        ]
+      [32m+[0m[0m name                   = "terraform-docker-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "ap-south-1"
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "terraform-docker-sg"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Name" = "terraform-docker-sg"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+    }
+
+[1m  # aws_subnet.public_1[0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public_1" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "ap-south-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "11.0.1.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = true
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "ap-south-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "public-subnet-1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Name" = "public-subnet-1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # aws_subnet.public_2[0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public_2" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "ap-south-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "11.0.2.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = true
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "ap-south-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "public-subnet-2"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Name" = "public-subnet-2"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # aws_vpc.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_vpc" "main" {
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m cidr_block                           = "11.0.0.0/16"
+      [32m+[0m[0m default_network_acl_id               = (known after apply)
+      [32m+[0m[0m default_route_table_id               = (known after apply)
+      [32m+[0m[0m default_security_group_id            = (known after apply)
+      [32m+[0m[0m dhcp_options_id                      = (known after apply)
+      [32m+[0m[0m enable_dns_hostnames                 = true
+      [32m+[0m[0m enable_dns_support                   = true
+      [32m+[0m[0m enable_network_address_usage_metrics = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_tenancy                     = "default"
+      [32m+[0m[0m ipv6_association_id                  = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                      = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_network_border_group = (known after apply)
+      [32m+[0m[0m main_route_table_id                  = (known after apply)
+      [32m+[0m[0m owner_id                             = (known after apply)
+      [32m+[0m[0m region                               = "ap-south-1"
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "terraform-docker-vpc"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name" = "terraform-docker-vpc"
+        }
+    }
+
+[1mPlan:[0m [0m10 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m ec2_1_public_dns = (known after apply)
+  [32m+[0m[0m ec2_1_public_ip  = (known after apply)
+  [32m+[0m[0m ec2_2_public_dns = (known after apply)
+  [32m+[0m[0m ec2_2_public_ip  = (known after apply)
+  [32m+[0m[0m subnet_1_id      = (known after apply)
+  [32m+[0m[0m subnet_2_id      = (known after apply)
+  [32m+[0m[0m vpc_id           = (known after apply)
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Terraform Apply)
+[Pipeline] withCredentials
+Masking supported pattern matches of %AWS_SECRET_ACCESS_KEY%
+[Pipeline] {
+[Pipeline] dir
+Running in C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\terraform
+[Pipeline] {
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins\terraform>terraform apply -auto-approve 
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_instance.docker_1[0m will be created
+[0m  [32m+[0m[0m resource "aws_instance" "docker_1" {
+      [32m+[0m[0m ami                                  = "ami-0f918f7e67a3323f0"
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m associate_public_ip_address          = (known after apply)
+      [32m+[0m[0m availability_zone                    = (known after apply)
+      [32m+[0m[0m disable_api_stop                     = (known after apply)
+      [32m+[0m[0m disable_api_termination              = (known after apply)
+      [32m+[0m[0m ebs_optimized                        = (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [32m+[0m[0m force_destroy                        = false
+      [32m+[0m[0m get_password_data                    = false
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_initiated_shutdown_behavior = (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [32m+[0m[0m instance_state                       = (known after apply)
+      [32m+[0m[0m instance_type                        = "t2.micro"
+      [32m+[0m[0m ipv6_address_count                   = (known after apply)
+      [32m+[0m[0m ipv6_addresses                       = (known after apply)
+      [32m+[0m[0m key_name                             = "terraform-docker-key"
+      [32m+[0m[0m monitoring                           = (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [32m+[0m[0m placement_partition_number           = (known after apply)
+      [32m+[0m[0m primary_network_interface_id         = (known after apply)
+      [32m+[0m[0m private_dns                          = (known after apply)
+      [32m+[0m[0m private_ip                           = (known after apply)
+      [32m+[0m[0m public_dns                           = (known after apply)
+      [32m+[0m[0m public_ip                            = (known after apply)
+      [32m+[0m[0m region                               = "ap-south-1"
+      [32m+[0m[0m secondary_private_ips                = (known after apply)
+      [32m+[0m[0m security_groups                      = (known after apply)
+      [32m+[0m[0m source_dest_check                    = true
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [32m+[0m[0m subnet_id                            = (known after apply)
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-1"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-1"
+        }
+      [32m+[0m[0m tenancy                              = (known after apply)
+      [32m+[0m[0m user_data                            = <<-EOT
+            #!/bin/bash
+            
+            apt-get update -y
+            
+            apt-get install -y ca-certificates curl
+            
+            install -m 0755 -d /etc/apt/keyrings
+            
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+              -o /etc/apt/keyrings/docker.asc
+            
+            chmod a+r /etc/apt/keyrings/docker.asc
+            
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+              tee /etc/apt/sources.list.d/docker.list > /dev/null
+            
+            apt-get update -y
+            
+            apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            
+            systemctl enable docker
+            systemctl start docker
+            
+            usermod -aG docker ubuntu
+        EOT
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+      [32m+[0m[0m user_data_replace_on_change          = false
+      [32m+[0m[0m vpc_security_group_ids               = (known after apply)
+
+      [32m+[0m[0m capacity_reservation_specification (known after apply)
+
+      [32m+[0m[0m cpu_options (known after apply)
+
+      [32m+[0m[0m ebs_block_device (known after apply)
+
+      [32m+[0m[0m enclave_options (known after apply)
+
+      [32m+[0m[0m ephemeral_block_device (known after apply)
+
+      [32m+[0m[0m instance_market_options (known after apply)
+
+      [32m+[0m[0m maintenance_options (known after apply)
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m network_interface (known after apply)
+
+      [32m+[0m[0m primary_network_interface (known after apply)
+
+      [32m+[0m[0m private_dns_name_options (known after apply)
+
+      [32m+[0m[0m root_block_device (known after apply)
+
+      [32m+[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1m  # aws_instance.docker_2[0m will be created
+[0m  [32m+[0m[0m resource "aws_instance" "docker_2" {
+      [32m+[0m[0m ami                                  = "ami-0f918f7e67a3323f0"
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m associate_public_ip_address          = (known after apply)
+      [32m+[0m[0m availability_zone                    = (known after apply)
+      [32m+[0m[0m disable_api_stop                     = (known after apply)
+      [32m+[0m[0m disable_api_termination              = (known after apply)
+      [32m+[0m[0m ebs_optimized                        = (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [32m+[0m[0m force_destroy                        = false
+      [32m+[0m[0m get_password_data                    = false
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_initiated_shutdown_behavior = (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [32m+[0m[0m instance_state                       = (known after apply)
+      [32m+[0m[0m instance_type                        = "t2.micro"
+      [32m+[0m[0m ipv6_address_count                   = (known after apply)
+      [32m+[0m[0m ipv6_addresses                       = (known after apply)
+      [32m+[0m[0m key_name                             = "terraform-docker-key"
+      [32m+[0m[0m monitoring                           = (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [32m+[0m[0m placement_partition_number           = (known after apply)
+      [32m+[0m[0m primary_network_interface_id         = (known after apply)
+      [32m+[0m[0m private_dns                          = (known after apply)
+      [32m+[0m[0m private_ip                           = (known after apply)
+      [32m+[0m[0m public_dns                           = (known after apply)
+      [32m+[0m[0m public_ip                            = (known after apply)
+      [32m+[0m[0m region                               = "ap-south-1"
+      [32m+[0m[0m secondary_private_ips                = (known after apply)
+      [32m+[0m[0m security_groups                      = (known after apply)
+      [32m+[0m[0m source_dest_check                    = true
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [32m+[0m[0m subnet_id                            = (known after apply)
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-2"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name" = "terraform-docker-ec2-2"
+        }
+      [32m+[0m[0m tenancy                              = (known after apply)
+      [32m+[0m[0m user_data                            = <<-EOT
+            #!/bin/bash
+            
+            apt-get update -y
+            
+            apt-get install -y ca-certificates curl
+            
+            install -m 0755 -d /etc/apt/keyrings
+            
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+              -o /etc/apt/keyrings/docker.asc
+            
+            chmod a+r /etc/apt/keyrings/docker.asc
+            
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+              $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+              tee /etc/apt/sources.list.d/docker.list > /dev/null
+            
+            apt-get update -y
+            
+            apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            
+            systemctl enable docker
+            systemctl start docker
+            
+            usermod -aG docker ubuntu
+        EOT
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+      [32m+[0m[0m user_data_replace_on_change          = false
+      [32m+[0m[0m vpc_security_group_ids               = (known after apply)
+
+      [32m+[0m[0m capacity_reservation_specification (known after apply)
+
+      [32m+[0m[0m cpu_options (known after apply)
+
+      [32m+[0m[0m ebs_block_device (known after apply)
+
+      [32m+[0m[0m enclave_options (known after apply)
+
+      [32m+[0m[0m ephemeral_block_device (known after apply)
+
+      [32m+[0m[0m instance_market_options (known after apply)
+
+      [32m+[0m[0m maintenance_options (known after apply)
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m network_interface (known after apply)
+
+      [32m+[0m[0m primary_network_interface (known after apply)
+
+      [32m+[0m[0m private_dns_name_options (known after apply)
+
+      [32m+[0m[0m root_block_device (known after apply)
+
+      [32m+[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1m  # aws_internet_gateway.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_internet_gateway" "main" {
+      [32m+[0m[0m arn      = (known after apply)
+      [32m+[0m[0m id       = (known after apply)
+      [32m+[0m[0m owner_id = (known after apply)
+      [32m+[0m[0m region   = "ap-south-1"
+      [32m+[0m[0m tags     = {
+          [32m+[0m[0m "Name" = "terraform-docker-igw"
+        }
+      [32m+[0m[0m tags_all = {
+          [32m+[0m[0m "Name" = "terraform-docker-igw"
+        }
+      [32m+[0m[0m vpc_id   = (known after apply)
+    }
+
+[1m  # aws_route_table.public[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "public" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m region           = "ap-south-1"
+      [32m+[0m[0m route            = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_block                 = "0.0.0.0/0"
+              [32m+[0m[0m gateway_id                 = (known after apply)
+                [90m# (12 unchanged attributes hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "public-route-table"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Name" = "public-route-table"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # aws_route_table_association.public_1[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public_1" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "ap-south-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # aws_route_table_association.public_2[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public_2" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m region         = "ap-south-1"
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # aws_security_group.docker[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "docker" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "Security group for Docker EC2 instances"
+      [32m+[0m[0m egress                 = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m from_port        = 0
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "-1"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 0
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "Application"
+              [32m+[0m[0m from_port        = 8080
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 8080
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "HTTP"
+              [32m+[0m[0m from_port        = 80
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 80
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m description      = "SSH"
+              [32m+[0m[0m from_port        = 22
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 22
+            },
+        ]
+      [32m+[0m[0m name                   = "terraform-docker-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m region                 = "ap-south-1"
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "terraform-docker-sg"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Name" = "terraform-docker-sg"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+    }
+
+[1m  # aws_subnet.public_1[0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public_1" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "ap-south-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "11.0.1.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = true
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "ap-south-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "public-subnet-1"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Name" = "public-subnet-1"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # aws_subnet.public_2[0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public_2" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "ap-south-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "11.0.2.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                                = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = true
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m region                                         = "ap-south-1"
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "public-subnet-2"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Name" = "public-subnet-2"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # aws_vpc.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_vpc" "main" {
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m cidr_block                           = "11.0.0.0/16"
+      [32m+[0m[0m default_network_acl_id               = (known after apply)
+      [32m+[0m[0m default_route_table_id               = (known after apply)
+      [32m+[0m[0m default_security_group_id            = (known after apply)
+      [32m+[0m[0m dhcp_options_id                      = (known after apply)
+      [32m+[0m[0m enable_dns_hostnames                 = true
+      [32m+[0m[0m enable_dns_support                   = true
+      [32m+[0m[0m enable_network_address_usage_metrics = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_tenancy                     = "default"
+      [32m+[0m[0m ipv6_association_id                  = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                      = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_network_border_group = (known after apply)
+      [32m+[0m[0m main_route_table_id                  = (known after apply)
+      [32m+[0m[0m owner_id                             = (known after apply)
+      [32m+[0m[0m region                               = "ap-south-1"
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "terraform-docker-vpc"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Name" = "terraform-docker-vpc"
+        }
+    }
+
+[1mPlan:[0m [0m10 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m ec2_1_public_dns = (known after apply)
+  [32m+[0m[0m ec2_1_public_ip  = (known after apply)
+  [32m+[0m[0m ec2_2_public_dns = (known after apply)
+  [32m+[0m[0m ec2_2_public_ip  = (known after apply)
+  [32m+[0m[0m subnet_1_id      = (known after apply)
+  [32m+[0m[0m subnet_2_id      = (known after apply)
+  [32m+[0m[0m vpc_id           = (known after apply)
+[0m[1maws_vpc.main: Creating...[0m[0m
+[0m[1maws_vpc.main: Creation complete after 3s [id=vpc-068af6483a4986cef][0m
+[0m[1maws_internet_gateway.main: Creating...[0m[0m
+[0m[1maws_subnet.public_2: Creating...[0m[0m
+[0m[1maws_subnet.public_1: Creating...[0m[0m
+[0m[1maws_security_group.docker: Creating...[0m[0m
+[0m[1maws_internet_gateway.main: Creation complete after 2s [id=igw-027a177e3c442016a][0m
+[0m[1maws_route_table.public: Creating...[0m[0m
+[0m[1maws_route_table.public: Creation complete after 2s [id=rtb-078456a5f77332797][0m
+[0m[1maws_security_group.docker: Creation complete after 4s [id=sg-04b40ea04c1e61968][0m
+[0m[1maws_subnet.public_2: Still creating... [00m10s elapsed][0m[0m
+[0m[1maws_subnet.public_1: Still creating... [00m10s elapsed][0m[0m
+[0m[1maws_subnet.public_1: Creation complete after 12s [id=subnet-0e486865ddabd0de4][0m
+[0m[1maws_subnet.public_2: Creation complete after 12s [id=subnet-038e3f1a1a0425231][0m
+[0m[1maws_route_table_association.public_2: Creating...[0m[0m
+[0m[1maws_route_table_association.public_1: Creating...[0m[0m
+[0m[1maws_instance.docker_1: Creating...[0m[0m
+[0m[1maws_instance.docker_2: Creating...[0m[0m
+[0m[1maws_route_table_association.public_2: Creation complete after 1s [id=rtbassoc-0e263a25e57d6fcbf][0m
+[0m[1maws_route_table_association.public_1: Creation complete after 1s [id=rtbassoc-03cc5bd25dee8615c][0m
+[0m[1maws_instance.docker_2: Still creating... [00m10s elapsed][0m[0m
+[0m[1maws_instance.docker_1: Still creating... [00m10s elapsed][0m[0m
+[0m[1maws_instance.docker_1: Creation complete after 13s [id=i-00bf7a2fc8c94c2b3][0m
+[0m[1maws_instance.docker_2: Creation complete after 13s [id=i-0854275cddc8c1e06][0m
+[0m[1m[32m
+Apply complete! Resources: 10 added, 0 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0mec2_1_public_dns = "ec2-65-2-9-147.ap-south-1.compute.amazonaws.com"
+ec2_1_public_ip = "65.2.9.147"
+ec2_2_public_dns = "ec2-13-200-243-227.ap-south-1.compute.amazonaws.com"
+ec2_2_public_ip = "13.200.243.227"
+subnet_1_id = "subnet-0e486865ddabd0de4"
+subnet_2_id = "subnet-038e3f1a1a0425231"
+vpc_id = "vpc-068af6483a4986cef"
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build)
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>docker build -t terraform-docker-app . 
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 123B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/node:20
+#2 DONE 2.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/node:20@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5
+#4 resolve docker.io/library/node:20@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 325B 0.0s done
+#5 DONE 0.1s
+
+#6 [2/3] WORKDIR /app
+#6 CACHED
+
+#7 [3/3] COPY app.js .
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 exporting manifest sha256:89dea9b0d7724eeafc01098720a2f281d3f9f53cbd64afec15cb4338bcb0a664 done
+#8 exporting config sha256:03389dad07f2b05d03e9f6ed0d06fb5819b118d91322f3558f362a87ae1ab31f done
+#8 exporting attestation manifest sha256:0b8cc5c30a845606720c4618589fca35645197a921318c6f0c513a293f664880 0.0s done
+#8 exporting manifest list sha256:3960e47bcfcec522702eeb9d9897b7cc916fcecd7402dc797655072aee6e424a 0.0s done
+#8 naming to docker.io/library/terraform-docker-app:latest done
+#8 unpacking to docker.io/library/terraform-docker-app:latest
+#8 unpacking to docker.io/library/terraform-docker-app:latest 0.0s done
+#8 DONE 0.2s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Login GHCR)
+[Pipeline] withCredentials
+Masking supported pattern matches of %GHCR_TOKEN%
+[Pipeline] {
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>echo ****   | docker login ghcr.io -u SanthoshiMary --password-stdin 
+Login Succeeded
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Push GHCR)
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>docker tag terraform-docker-app:latest ghcr.io/santhoshimary/terraform-docker-app:latest 
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\terraform-docker-jenkins>docker push ghcr.io/santhoshimary/terraform-docker-app:latest 
+The push refers to repository [ghcr.io/santhoshimary/terraform-docker-app]
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+266c37b39004: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+44136fa355b3: Waiting
+db53381ee51f: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+44136fa355b3: Waiting
+e5203b2bfeff: Waiting
+db53381ee51f: Waiting
+db53381ee51f: Mounted from santhoshimary/jenkinstest
+2933ecab0f11: Waiting
+8fcda2b4d799: Waiting
+c83419f44309: Waiting
+44136fa355b3: Mounted from santhoshimary/santhoshi-portfolio
+e5203b2bfeff: Mounted from santhoshimary/jenkinstest
+2933ecab0f11: Waiting
+8fcda2b4d799: Waiting
+c83419f44309: Waiting
+c83419f44309: Waiting
+2933ecab0f11: Waiting
+8fcda2b4d799: Waiting
+8fcda2b4d799: Waiting
+c83419f44309: Waiting
+2933ecab0f11: Waiting
+2933ecab0f11: Waiting
+8fcda2b4d799: Waiting
+c83419f44309: Waiting
+2933ecab0f11: Waiting
+8fcda2b4d799: Waiting
+c83419f44309: Waiting
+2933ecab0f11: Mounted from santhoshimary/jenkinstest
+8fcda2b4d799: Mounted from santhoshimary/jenkinstest
+c83419f44309: Waiting
+266c37b39004: Pushed
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+0b22ec2d9b1a: Waiting
+0b22ec2d9b1a: Waiting
+c83419f44309: Mounted from santhoshimary/jenkinstest
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+0b22ec2d9b1a: Waiting
+0b22ec2d9b1a: Waiting
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+5bd724267acd: Waiting
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+0b22ec2d9b1a: Waiting
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+0b22ec2d9b1a: Waiting
+5bd724267acd: Waiting
+2f2ab6e4eb46: Waiting
+0b22ec2d9b1a: Waiting
+5bd724267acd: Waiting
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+5bd724267acd: Waiting
+d9328783896a: Waiting
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Waiting
+0b22ec2d9b1a: Waiting
+d9328783896a: Mounted from santhoshimary/jenkinstest
+76e6b8204a89: Waiting
+2f2ab6e4eb46: Mounted from santhoshimary/jenkinstest
+0b22ec2d9b1a: Mounted from santhoshimary/jenkinstest
+5bd724267acd: Waiting
+5bd724267acd: Waiting
+76e6b8204a89: Mounted from santhoshimary/jenkinstest
+5bd724267acd: Waiting
+5bd724267acd: Waiting
+5bd724267acd: Waiting
+5bd724267acd: Pushed
+latest: digest: sha256:3960e47bcfcec522702eeb9d9897b7cc916fcecd7402dc797655072aee6e424a size: 856
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
